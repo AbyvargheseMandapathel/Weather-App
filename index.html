@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Temperature Forecast | Berlin</title>
+    <meta name="description" content="View historical temperature data from Open-Meteo API in a beautiful dashboard.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <div>
+                <h1>Weather History Dashboard</h1>
+                <p id="location-display">Location: 52.52°N, 13.41°E | Date: 2026-02-13 to 2026-02-27</p>
+            </div>
+            <div class="status-indicator">
+                <span class="pulse"></span> Live Data API
+            </div>
+        </header>
+
+        <section class="controls-section">
+            <form id="weather-form" class="weather-form">
+                <div class="input-group">
+                    <label for="lat">Latitude</label>
+                    <input type="number" id="lat" name="lat" step="0.01" value="52.52" required>
+                </div>
+                <div class="input-group">
+                    <label for="lon">Longitude</label>
+                    <input type="number" id="lon" name="lon" step="0.01" value="13.41" required>
+                </div>
+                <div class="input-group">
+                    <label for="start-date">Start Date</label>
+                    <input type="date" id="start-date" name="start-date" value="2026-02-13" required>
+                </div>
+                <div class="input-group">
+                    <label for="end-date">End Date</label>
+                    <input type="date" id="end-date" name="end-date" value="2026-02-27" required>
+                </div>
+                <div class="button-group">
+                    <button type="button" id="get-location" class="btn btn-secondary">📍 My Location</button>
+                    <button type="submit" class="btn btn-primary">Fetch Data</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Live Weather Section -->
+        <section class="live-weather" id="live-weather-section" style="display: none;">
+            <div class="live-card glass-panel">
+                <div class="live-header">
+                    <h2>Current Weather</h2>
+                    <span class="live-badge"><span class="pulse"></span> Live Now</span>
+                </div>
+                <div class="live-content">
+                    <div class="live-main">
+                        <div id="live-icon" class="weather-icon">--</div>
+                        <div class="temp-condition">
+                            <span id="live-temp" class="huge-temp">--°C</span>
+                            <span id="live-condition" class="condition-text">Analyzing Sky...</span>
+                        </div>
+                    </div>
+                    <div class="live-details-grid">
+                        <div class="live-detail">
+                            <span class="detail-label">Feels Like</span>
+                            <span id="live-feels" class="detail-val">--°C</span>
+                        </div>
+                        <div class="live-detail">
+                            <span class="detail-label">Wind Speed</span>
+                            <span id="live-wind" class="detail-val">-- km/h</span>
+                        </div>
+                        <div class="live-detail">
+                            <span class="detail-label">Humidity</span>
+                            <span id="live-humidity" class="detail-val">--%</span>
+                        </div>
+                        <div class="live-detail">
+                            <span class="detail-label">Precipitation</span>
+                            <span id="live-precip" class="detail-val">-- mm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🌡️</div>
+                <div class="stat-content">
+                    <h3>Min Temperature</h3>
+                    <p id="min-temp" class="stat-value">-- °C</p>
+                    <span id="min-time" class="stat-subtext">Calculating...</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-content">
+                    <h3>Max Temperature</h3>
+                    <p id="max-temp" class="stat-value">-- °C</p>
+                    <span id="max-time" class="stat-subtext">Calculating...</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Avg Temperature</h3>
+                    <p id="avg-temp" class="stat-value">-- °C</p>
+                    <span class="stat-subtext">Across selected period</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <h3>Total Records</h3>
+                    <p id="total-records" class="stat-value">--</p>
+                    <span class="stat-subtext">Hourly data points</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-container">
+            <div class="chart-header">
+                <h2>Temperature Trend (2m)</h2>
+                <div class="chart-actions">
+                    <button class="btn btn-active" data-range="all">All Time</button>
+                    <!-- <button class="btn" data-range="7d">Last 7 Days</button> -->
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="tempChart"></canvas>
+            </div>
+        </section>
+
+        <div id="loading" class="loading-overlay">
+            <div class="spinner"></div>
+            <p>Fetching API Data...</p>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
