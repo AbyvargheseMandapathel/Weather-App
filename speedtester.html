@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Speed Tester</title>
+    <meta name="description" content="Test your internet download speed instantly.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="speedstyle.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+        <a href="index.html" class="nav-link">← Back to Weather</a>
+    </nav>
+
+    <main class="dashboard flex-center">
+        <header class="dashboard-header centered">
+            <div>
+                <h1>Internet Speed Tester</h1>
+                <p>Check your connection speed in real-time</p>
+            </div>
+            <div class="status-indicator" id="status-indicator">
+                <span class="pulse pulse-idle" id="pulse-dot"></span> <span id="status-text">Ready to Test</span>
+            </div>
+        </header>
+
+        <section class="tester-container">
+            <div class="speed-dial-container">
+                <div class="speed-dial">
+                    <svg class="progress-ring" viewBox="0 0 280 280">
+                        <circle class="progress-ring__circle progress-bg" stroke="rgba(255,255,255,0.05)"
+                            stroke-width="15" fill="transparent" r="120" cx="140" cy="140" />
+                        <circle id="progress-value" class="progress-ring__circle progress-fg" stroke="url(#gradient)"
+                            stroke-width="15" fill="transparent" r="120" cx="140" cy="140" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#8b5cf6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="speed-readout">
+                        <span id="speed-value" class="speed-number">0.0</span>
+                        <span class="speed-unit">Mbps</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-controls">
+                <button id="start-test-btn" class="btn btn-primary start-btn">Start Test</button>
+            </div>
+        </section>
+
+        <section class="results-grid hidden" id="results-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📥</div>
+                <div class="stat-content">
+                    <h3>Download Speed</h3>
+                    <p id="final-download" class="stat-value">-- Mbps</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <h3>Latency (Ping)</h3>
+                    <p id="final-ping" class="stat-value">-- ms</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-content">
+                    <h3>Test Size</h3>
+                    <p id="test-size" class="stat-value">-- MB</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="speedscript.js"></script>
+</body>
+
+</html>
